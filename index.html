@@ -46,7 +46,7 @@ recurring:[['名稱','text'],['金額','number'],['每月幾號','number'],['分
 invest:[['標的','text'],['日期','date'],['買賣','sel',['買進','賣出','股利']],['股數','number'],['單價','number'],['手續費','number'],['交易稅','number'],['備註','text']]};
 const COL=['#7FA8D6','#E88DA0','#F4B79A','#A9D4CC','#C9B8E8','#F2D492','#9CC3E6','#F0A8C0'];
 let tab='ledger',mo=td().slice(0,7),D={},P=JSON.parse(localStorage.px||'{}'),U=localStorage.url,K=localStorage.key;
-const api=(m,p,b)=>fetch(U+p,{method:m,headers:{'x-key':K,'content-type':'application/json'},body:b&&JSON.stringify(b)}).then(r=>r.ok?r.json():Promise.reject(r.status));
+const api=(m,p,b)=>fetch(U+p,{method:m,headers:{'x-key':K,'content-type':'application/json'},body:b&&JSON.stringify(b)}).then(async r=>r.ok?r.json():Promise.reject(r.status+' '+((await r.json().catch(()=>({}))).error||'')));
 function cfg(){U=(prompt('Worker 網址',U||'')||U||'').replace(/\/$/,'');K=prompt('存取密碼',K||'')||K;localStorage.url=U||'';localStorage.key=K||'';load()}
 function sm(d){const[y,m]=mo.split('-').map(Number),t=new Date(y,m-1+d,1);mo=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0');load()}
 async function load(){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==tab));if(!U)return cfg();
